@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "T-Mobile Skip Ads",
   "version": "1.0",
-  "description": "Preskočí nejbližsí midroll v T-Mobile online TV",
+  "description": "Skip midroll ads in T-Mobile online TV",
   "permissions": ["activeTab", "scripting"],
   "host_permissions": ["<all_urls>", "file://*/*"],
   "icons": {

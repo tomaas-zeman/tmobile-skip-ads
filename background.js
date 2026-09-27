@@ -3,6 +3,6 @@ chrome.action.onClicked.addListener(async (tab) => {
     const response = await chrome.tabs.sendMessage(tab.id, { action: "skipVideo" });
     console.log("[Video Skip] Response:", response);
   } catch (error) {
-    console.error("[Video Skip] Chyba:", error.message);
+    console.error("[Video Skip] Error:", error.message);
   }
 });

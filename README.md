@@ -1,35 +1,49 @@
-# Video Skip +1 min Extension
+# T-Mobile Skip Ads Extension
 
-Jednoduchá Chrome extension, která posune video o 1 minutu dopředu.
+A Chrome extension that automatically skips midroll advertisements in T-Mobile's online TV (tvgo.t-mobile.cz).
 
-## Soubory
+## Files
 
-- `manifest.json` - Konfigurace extension
-- `background.js` - Service worker, který naslouchá kliknutí na ikonu
-- `content.js` - Skript běžící na stránce, manipuluje video
-- `images/` - Ikony extension (16x16, 48x48, 128x128 px)
+- `manifest.json` - Extension configuration
+- `background.js` - Service worker that listens for extension icon clicks
+- `content.js` - Content script running in page context, detects and skips midroll ads
+- `images/` - Extension icons (16x16, 48x48, 128x128 px)
 
-## Instalace
+## Installation
 
-1. Otevřete Chrome a jděte na `chrome://extensions/`
-2. Zapněte "Developer mode" (pravý horní roh)
-3. Klikněte "Load unpacked"
-4. Vyberte složku projektu (`zradci`)
+1. Open Chrome and go to `chrome://extensions/`
+2. Enable "Developer mode" (top right corner)
+3. Click "Load unpacked"
+4. Select the project folder
 
-## Použití
+## Usage
 
-- Na jakékoli stránce s videem klikněte na ikonu extension v toolbaru
-- Video se posune o 60 sekund dopředu
-- Lze klikat libovolně vícekrát
+- Click the extension icon in the toolbar while watching a video on tvgo.t-mobile.cz
+- The extension detects midroll advertisements and skips to the end of the ad + 30 seconds
+- If no midroll is detected, it falls back to skipping 60 seconds forward
+- Click multiple times to skip through multiple ads
 
-## Jak funguje
+## How It Works
 
-1. **background.js** - Naslouchá kliknutí na ikonu extension
-2. **content.js** - Běží v kontextu stránky a manipuluje DOM
-3. Komunikace mezi nimi přes `chrome.tabs.sendMessage()`
-4. Skript najde první `<video>` element a zvýší `currentTime` o 60 sekund
+1. **background.js** - Listens for extension icon clicks
+2. **content.js** - Runs in page context and:
+   - Finds the HTML5 video element (`video.player`)
+   - Detects midroll ads using DOM attributes (`fromleft`, `length`)
+   - Calculates ad positions based on video duration
+   - Intelligently skips to the next midroll or falls back to 60-second skip
+3. Communication between scripts via `chrome.tabs.sendMessage()`
 
-## Poznámky
+## Features
 
-- Funguje s každým HTML5 videem (ne se všemi embeddovanými přehrávači, které nemají přístup k DOM)
-- Pro YouTube, Vimeo a jiné třetí strany by bylo potřeba jiné řešení
+- **Smart midroll detection** - Automatically identifies ad breaks in the middle of videos
+- **Position-aware skipping** - Skips to the end of the current or next midroll + 30 seconds
+- **Fallback mechanism** - Defaults to 60-second skip if no ads are detected
+- **Multiple player support** - Works with HTML5 video, Video.js, and YouTube iframes
+- **Debug logging** - Console logs show what the extension is doing
+
+## Notes
+
+- Optimized for T-Mobile online TV (tvgo.t-mobile.cz)
+- Works with any HTML5 `<video>` element
+- Falls back to generic video skipping for other sites
+- Some embedded players (YouTube, Vimeo) may require different approaches
